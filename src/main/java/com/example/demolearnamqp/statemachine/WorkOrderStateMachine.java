@@ -1,5 +1,6 @@
 package com.example.demolearnamqp.statemachine;
 
+import com.example.demolearnamqp.entity.WorkOrder;
 import com.example.demolearnamqp.statemachine.action.ToBeAssignedWorkOrderAction;
 import com.example.demolearnamqp.statemachine.enumtype.WorkOrderState;
 import com.example.demolearnamqp.statemachine.inter.IWorkOrderAction;
@@ -7,10 +8,16 @@ import lombok.Data;
 
 @Data
 public class WorkOrderStateMachine {
+
+    private WorkOrder workOrder;
+
     private IWorkOrderAction previousState;
     private IWorkOrderAction currentState;
 
-    public WorkOrderStateMachine() {
+    private volatile Boolean hangUpFlag = false;
+
+    public WorkOrderStateMachine(WorkOrder workOrder) {
+        this.workOrder = workOrder;
         this.previousState = ToBeAssignedWorkOrderAction.getInstance();
         this.currentState = ToBeAssignedWorkOrderAction.getInstance();
     }
