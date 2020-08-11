@@ -25,8 +25,7 @@ public class WorkOrderStateMachine implements Serializable {
 
     // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
-    public WorkOrderStateMachine(WorkOrder workOrder) {
-        this.workOrder = workOrder;
+    public WorkOrderStateMachine() {
         this.previousState = WorkOrderBase.toBeAssignedWorkOrderAction;
         this.currentState = WorkOrderBase.toBeAssignedWorkOrderAction;
     }

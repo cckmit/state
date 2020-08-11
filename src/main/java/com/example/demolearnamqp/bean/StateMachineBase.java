@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Table(name = "workorder_statemachine")
 public class StateMachineBase {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(length = 32)
     private String previousState;

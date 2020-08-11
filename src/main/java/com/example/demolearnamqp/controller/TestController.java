@@ -1,8 +1,9 @@
 package com.example.demolearnamqp.controller;
 
 import com.example.demolearnamqp.bean.StateMachineBaseDao;
-import com.example.demolearnamqp.bean.WorkOrder;
+import com.example.demolearnamqp.bean.WorkorderBaseDao;
 import com.example.demolearnamqp.statemachine.WorkOrderStateMachine;
+import com.example.demolearnamqp.statemachine.inter.StateMachineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,31 +20,24 @@ public class TestController {
     private RedisTemplate<Object, Object> redisTemplate;
     @Autowired
     private StateMachineBaseDao stateMachineBaseDao;
+    @Autowired
+    private WorkorderBaseDao workorderBaseDao;
+    @Autowired
+    private StateMachineService stateMachineService;
 
     @GetMapping("/test")
     public Object test() {
 
-        WorkOrderStateMachine machine = new WorkOrderStateMachine(new WorkOrder(1L));
-        machine.administratorSuspendOperation();
-
-
-        System.out.println(WorkOrderStateMachine.hangUpCheck.compareAndSet(machine, Boolean.FALSE, Boolean.TRUE));
-        System.out.println(WorkOrderStateMachine.hangUpCheck.compareAndSet(machine, Boolean.FALSE, Boolean.TRUE));
-
-
-
-//        StateMachineBase machineRedis = Convert.createByMachine(machine);
-//        stateMachineBaseDao.save(machineRedis);
-//        log.info(machineRedis.toString());
-
-
-
-//        redisTemplate.opsForValue().set("test55", Convert.createByMachine(machine));
-//        log.info("执行输出操作");
+//        WorkOrder workOrder = new WorkOrder();
+//        workOrder.setId(2L);
+//        workOrder.setTitle("xxx");
+//        workOrder.setContent("UUUUUUUUUUUUUUUUU");
 //
-//        WorkOrderStateMachineRedis redis = (WorkOrderStateMachineRedis) redisTemplate.opsForValue().get("test55");
-//        WorkOrderStateMachine machine1 = Convert.createByMachineRedis(redis);
-//        log.info(machine1.toString());
+//        workorderBaseDao.save(workOrder);
+//        workorderBaseDao.saveAndFlush(workOrder);
+
+        WorkOrderStateMachine workOrderStateMachine = stateMachineService.initOrLoadStateMachine(1L);
+        log.info(workOrderStateMachine.toString());
 
         return Arrays.asList("asdasd", "mmmmmm");
     }
