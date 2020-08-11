@@ -4,16 +4,13 @@ import com.example.demolearnamqp.statemachine.WorkOrderStateMachine;
 import com.example.demolearnamqp.statemachine.enumtype.WorkOrderState;
 import com.example.demolearnamqp.statemachine.inter.IWorkOrderAction;
 import com.example.demolearnamqp.statemachine.inter.WorkOrderActionAdapter;
+import org.springframework.stereotype.Component;
 
 /**
  * 已挂起
  */
+@Component
 public class SuspendedWorkOrderAction extends WorkOrderActionAdapter {
-    private static final SuspendedWorkOrderAction instance = new SuspendedWorkOrderAction();
-    private SuspendedWorkOrderAction() {}
-    public static SuspendedWorkOrderAction getInstance() {
-        return instance;
-    }
 
     @Override
     public WorkOrderState getName() {

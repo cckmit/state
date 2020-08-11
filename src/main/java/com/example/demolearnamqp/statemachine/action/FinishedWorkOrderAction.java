@@ -2,16 +2,13 @@ package com.example.demolearnamqp.statemachine.action;
 
 import com.example.demolearnamqp.statemachine.enumtype.WorkOrderState;
 import com.example.demolearnamqp.statemachine.inter.WorkOrderActionAdapter;
+import org.springframework.stereotype.Component;
 
 /**
  * 已完结
  */
+@Component
 public class FinishedWorkOrderAction extends WorkOrderActionAdapter {
-    private static final FinishedWorkOrderAction instance = new FinishedWorkOrderAction();
-    private FinishedWorkOrderAction() {}
-    public static FinishedWorkOrderAction getInstance() {
-        return instance;
-    }
 
     @Override
     public WorkOrderState getName() {
