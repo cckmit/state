@@ -2,6 +2,7 @@ package com.example.demolearnamqp.aspect;
 
 import com.example.demolearnamqp.bean.StateMachineBaseDao;
 import com.example.demolearnamqp.statemachine.WorkOrderStateMachine;
+import com.example.demolearnamqp.statemachine.inter.IWorkOrderAction;
 import com.example.demolearnamqp.util.Convert;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -31,25 +32,24 @@ public class WorkOrderActionAspect {
     public void BrokerAspect() {
     }
 
+    @SuppressWarnings("all")
     @Around("BrokerAspect()")
     public Object doAroundGame(ProceedingJoinPoint pjp) throws Throwable {
-        // 状态机参数
         WorkOrderStateMachine machine = (WorkOrderStateMachine) pjp.getArgs()[0];
-        // 反转状态机状态
-        machine.resetPreviousState();
-        // 多实例并发控制
+        IWorkOrderAction prevState = machine.getCurrentState();
         String lockKey = "lock:" + machine.getWorkOrder().getId();
         try {
             redisTemplate.execute((RedisCallback<Object>) redisConnection -> {
                 while (true) {
                     if (redisConnection.set(lockKey.getBytes(), "".getBytes(),
                             Expiration.from(1, TimeUnit.MINUTES), RedisStringCommands.SetOption.SET_IF_ABSENT)) {
-                        // 如果没有，则抢到锁
                         try {
                             log.info(machine.toString());
                             pjp.proceed();
                             log.info(machine.toString());
-                            // update machine
+                            if (prevState.getClass() != machine.getCurrentState().getClass()) {
+                                machine.setPreviousState(prevState);
+                            }
                             stateMachineBaseDao.save(Convert.createByMachine(machine));
                         } catch (Throwable throwable) {
                             log.error(throwable.getMessage(), throwable);

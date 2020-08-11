@@ -32,6 +32,8 @@ public class AllocatedWorkOrderAction extends WorkOrderActionAdapter implements 
     @Override
     public void administratorSuspendOperation(WorkOrderStateMachine stateMachine) {
         super.administratorSuspendOperation(stateMachine);
-        stateMachine.setCurrentState(WorkOrderBase.suspendedWorkOrderAction);
+        if (WorkOrderStateMachine.hangUpCheck.compareAndSet(stateMachine, Boolean.FALSE, Boolean.TRUE)) {
+            stateMachine.setCurrentState(WorkOrderBase.suspendedWorkOrderAction);
+        }
     }
 }
