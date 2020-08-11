@@ -5,40 +5,33 @@ import com.example.demolearnamqp.statemachine.enumtype.WorkOrderState;
 
 public class WorkOrderActionAdapter implements IWorkOrderAction {
 
-
     @Override
     public WorkOrderState getType() {
         return null;
     }
 
-
     @Override
-    public void workOrderAllocation(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine); }
+    public void workOrderAllocation(WorkOrderStateMachine stateMachine) {  }
     @Override
-    public void workOrderAllocationDefaultOrder(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine);}
+    public void workOrderAllocationDefaultOrder(WorkOrderStateMachine stateMachine) { }
     @Override
-    public void administratorSuspendOperation(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine); }
+    public void administratorSuspendOperation(WorkOrderStateMachine stateMachine) {  }
     @Override
-    public void judgedAsUnprocessable(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine); }
+    public void judgedAsUnprocessable(WorkOrderStateMachine stateMachine) {  }
     @Override
-    public void receiveWorkOrder(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine); }
+    public void receiveWorkOrder(WorkOrderStateMachine stateMachine) {  }
     @Override
-    public void administratorUnhook(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine); }
+    public void administratorUnhook(WorkOrderStateMachine stateMachine) {  }
     @Override
-    public void noFeeForSubmittingProcessingResults(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine); }
+    public void noFeeForSubmittingProcessingResults(WorkOrderStateMachine stateMachine) {  }
     @Override
-    public void thereIsAFeeForSubmittingTheProcessingResult(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine); }
+    public void thereIsAFeeForSubmittingTheProcessingResult(WorkOrderStateMachine stateMachine) {  }
     @Override
-    public void judgedAsFalsePositive(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine); }
+    public void judgedAsFalsePositive(WorkOrderStateMachine stateMachine) {  }
     @Override
-    public void paymentCompleted(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine); }
+    public void paymentCompleted(WorkOrderStateMachine stateMachine) {  }
     @Override
-    public void confirmWorkOrder(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine); }
+    public void confirmWorkOrder(WorkOrderStateMachine stateMachine) {  }
     @Override
-    public void evaluationWorkOrder(WorkOrderStateMachine stateMachine) { preOperateOnStateMachine(stateMachine); }
-
-    private void preOperateOnStateMachine(WorkOrderStateMachine stateMachine) {
-        stateMachine.resetPreviousState();
-    }
-
+    public void evaluationWorkOrder(WorkOrderStateMachine stateMachine) {  }
 }
