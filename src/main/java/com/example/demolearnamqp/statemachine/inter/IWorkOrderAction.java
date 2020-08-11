@@ -5,7 +5,7 @@ import com.example.demolearnamqp.statemachine.enumtype.WorkOrderState;
 
 public interface IWorkOrderAction {
 
-    WorkOrderState getName();
+    WorkOrderState getType();
 
     /**
      * 工单分配

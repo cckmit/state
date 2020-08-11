@@ -4,10 +4,10 @@ import com.example.demolearnamqp.entity.WorkOrder;
 import com.example.demolearnamqp.statemachine.container.WorkOrderBase;
 import com.example.demolearnamqp.statemachine.enumtype.WorkOrderState;
 import com.example.demolearnamqp.statemachine.inter.IWorkOrderAction;
-import lombok.Data;
 
-@Data
-public class WorkOrderStateMachine {
+import java.io.Serializable;
+
+public class WorkOrderStateMachine implements Serializable {
 
     private WorkOrder workOrder;
 
@@ -22,7 +22,7 @@ public class WorkOrderStateMachine {
         this.currentState = WorkOrderBase.toBeAssignedWorkOrderAction;
     }
     public WorkOrderState getName() {
-        return currentState.getName();
+        return currentState.getType();
     }
 
     public void workOrderAllocation() {
@@ -64,5 +64,48 @@ public class WorkOrderStateMachine {
 
     public void resetPreviousState() {
         previousState = currentState;
+    }
+
+
+    public WorkOrder getWorkOrder() {
+        return workOrder;
+    }
+
+    public void setWorkOrder(WorkOrder workOrder) {
+        this.workOrder = workOrder;
+    }
+
+    public IWorkOrderAction getPreviousState() {
+        return previousState;
+    }
+
+    public void setPreviousState(IWorkOrderAction previousState) {
+        this.previousState = previousState;
+    }
+
+    public IWorkOrderAction getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(IWorkOrderAction currentState) {
+        this.currentState = currentState;
+    }
+
+    public Boolean getHangUpFlag() {
+        return hangUpFlag;
+    }
+
+    public void setHangUpFlag(Boolean hangUpFlag) {
+        this.hangUpFlag = hangUpFlag;
+    }
+
+    @Override
+    public String toString() {
+        return "WorkOrderStateMachine{" +
+                "workOrder=" + workOrder +
+                ", previousState=" + previousState +
+                ", currentState=" + currentState +
+                ", hangUpFlag=" + hangUpFlag +
+                '}';
     }
 }

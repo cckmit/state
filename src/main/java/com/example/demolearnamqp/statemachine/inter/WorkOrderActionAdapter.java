@@ -7,7 +7,7 @@ public class WorkOrderActionAdapter implements IWorkOrderAction {
 
 
     @Override
-    public WorkOrderState getName() {
+    public WorkOrderState getType() {
         return null;
     }
 
