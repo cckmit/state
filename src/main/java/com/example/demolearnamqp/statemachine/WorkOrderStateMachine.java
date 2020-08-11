@@ -1,20 +1,29 @@
 package com.example.demolearnamqp.statemachine;
 
-import com.example.demolearnamqp.entity.WorkOrder;
+import com.example.demolearnamqp.bean.WorkOrder;
 import com.example.demolearnamqp.statemachine.container.WorkOrderBase;
 import com.example.demolearnamqp.statemachine.enumtype.WorkOrderState;
 import com.example.demolearnamqp.statemachine.inter.IWorkOrderAction;
 
 import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 public class WorkOrderStateMachine implements Serializable {
 
+    // 工单实体
     private WorkOrder workOrder;
-
+    // 上一个状态
     private IWorkOrderAction previousState;
+    // 当前状态
     private IWorkOrderAction currentState;
-
+    // 管理员挂起标识，一个工单只允许被挂起一次
     private volatile Boolean hangUpFlag = false;
+
+    // 用于检查挂起操作的合法性
+    public static final AtomicReferenceFieldUpdater<WorkOrderStateMachine, Boolean> hangUpCheck
+            = AtomicReferenceFieldUpdater.newUpdater(WorkOrderStateMachine.class, Boolean.class, "hangUpFlag");
+
+    // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
     public WorkOrderStateMachine(WorkOrder workOrder) {
         this.workOrder = workOrder;

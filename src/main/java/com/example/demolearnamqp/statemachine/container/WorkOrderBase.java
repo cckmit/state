@@ -31,10 +31,6 @@ public class WorkOrderBase implements SmartInitializingSingleton, ApplicationCon
     public static ToBeConfirmedWorkOrderAction toBeConfirmedWorkOrderAction;
     public static ToBePaidWorkOrderAction toBePaidWorkOrderAction;
 
-//    public static final AtomicReferenceFieldUpdater<WorkOrderStateMachine, Boolean> hangUpCheck
-//            = AtomicReferenceFieldUpdater.newUpdater(WorkOrderStateMachine.class, Boolean.class, "hangUpFlag");
-
-
     @Override
     public void afterSingletonsInstantiated() {
         allocatedWorkOrderAction = context.getBean(AllocatedWorkOrderAction.class);

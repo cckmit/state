@@ -40,10 +40,9 @@ public class WorkOrderActionAspect {
                             Expiration.from(1, TimeUnit.MINUTES), RedisStringCommands.SetOption.SET_IF_ABSENT)) {
                         // 如果没有，则抢到锁
                         try {
-                            log.info(machine.toString());
+//                            log.info(machine.toString());
                             pjp.proceed();
-                            Thread.sleep(10000);
-                            log.info(machine.toString());
+//                            log.info(machine.toString());
                         } catch (Throwable throwable) {
                             log.error(throwable.getMessage(), throwable);
                         }

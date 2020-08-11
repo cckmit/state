@@ -1,4 +1,4 @@
-package com.example.demolearnamqp.entity;
+package com.example.demolearnamqp.bean;
 
 import lombok.Data;
 
