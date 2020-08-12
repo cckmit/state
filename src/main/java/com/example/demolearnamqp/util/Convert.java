@@ -1,8 +1,11 @@
 package com.example.demolearnamqp.util;
 
 import com.example.demolearnamqp.bean.StateMachineBase;
+import com.example.demolearnamqp.bean.WorkOrderActionLog;
 import com.example.demolearnamqp.statemachine.WorkOrderStateMachine;
 import com.example.demolearnamqp.statemachine.container.WorkOrderBase;
+
+import java.time.LocalDateTime;
 
 public class Convert {
 
@@ -30,5 +33,15 @@ public class Convert {
         workOrderStateMachine.setCurrentState(WorkOrderBase.getByType(machineRedis.getCurrentState()));
         workOrderStateMachine.setPreviousState(WorkOrderBase.getByType(machineRedis.getPreviousState()));
         return workOrderStateMachine;
+    }
+
+    public static WorkOrderActionLog createWorkOrderActionLogByStateMachineBase(StateMachineBase machineRedis) {
+        WorkOrderActionLog workOrderActionLog = new WorkOrderActionLog();
+        workOrderActionLog.setPreviousState(machineRedis.getPreviousState());
+        workOrderActionLog.setCurrentState(machineRedis.getCurrentState());
+        workOrderActionLog.setHangUpFlag(machineRedis.isHangUpFlag());
+        workOrderActionLog.setWorkOrderId(machineRedis.getId());
+        workOrderActionLog.setChangeStateDate(LocalDateTime.now());
+        return workOrderActionLog;
     }
 }

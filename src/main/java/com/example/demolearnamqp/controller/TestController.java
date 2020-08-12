@@ -1,9 +1,11 @@
 package com.example.demolearnamqp.controller;
 
-import com.example.demolearnamqp.bean.WorkOrder;
 import com.example.demolearnamqp.bean.WorkorderBaseDao;
+import com.example.demolearnamqp.statemachine.WorkOrderStateMachine;
+import com.example.demolearnamqp.statemachine.inter.StateMachineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,15 +17,17 @@ public class TestController {
 
     @Autowired
     private WorkorderBaseDao workorderBaseDao;
+    @Autowired
+    private StateMachineService stateMachineService;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @GetMapping("/test")
     public Object test() {
 
-        WorkOrder workOrder = new WorkOrder();
-        workOrder.setTitle("这是标题啊啛啛喳喳啊奥术大师多");
-        workOrder.setContent("这是内容啛啛喳喳错啊奥术大师多发发发啊");
-        workorderBaseDao.save(workOrder);
+        WorkOrderStateMachine stateMachine = stateMachineService.initOrLoadStateMachine(3L);
+        stateMachine.thereIsAFeeForSubmittingTheProcessingResult();
 
-        return Arrays.asList("xxx","asdasd", "asdasd", "dasdasdasdddddddddadasdsadddddddddddd");
+        return Arrays.asList("xxx","asdasd", "asdasd", "dasdasasdasddddasdddddddddadasdsadddddddddddd");
     }
 }

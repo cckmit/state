@@ -1,5 +1,6 @@
 package com.example.demolearnamqp.aspect;
 
+import com.example.demolearnamqp.bean.StateMachineBase;
 import com.example.demolearnamqp.bean.StateMachineBaseDao;
 import com.example.demolearnamqp.statemachine.WorkOrderStateMachine;
 import com.example.demolearnamqp.statemachine.inter.IWorkOrderAction;
@@ -10,6 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,6 +29,8 @@ public class WorkOrderActionAspect {
     private RedisTemplate<Object, Object> redisTemplate;
     @Autowired
     private StateMachineBaseDao stateMachineBaseDao;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @Pointcut("execution(public * com.example.demolearnamqp.statemachine.action.*.*(com.example.demolearnamqp.statemachine.WorkOrderStateMachine)))")
     public void BrokerAspect() {
@@ -49,8 +53,12 @@ public class WorkOrderActionAspect {
                             log.info(machine.toString());
                             if (prevState.getClass() != machine.getCurrentState().getClass()) {
                                 machine.setPreviousState(prevState);
+                                StateMachineBase stateMachineBase = Convert.createByMachine(machine);
+                                // store mysql data
+                                stateMachineBaseDao.save(stateMachineBase);
+                                // store mongo data
+                                mongoTemplate.save(Convert.createWorkOrderActionLogByStateMachineBase(stateMachineBase));
                             }
-                            stateMachineBaseDao.save(Convert.createByMachine(machine));
                         } catch (Throwable throwable) {
                             log.error(throwable.getMessage(), throwable);
                         }
